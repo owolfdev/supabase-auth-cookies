@@ -31,7 +31,16 @@ export default function Login() {
       password,
     });
     router.push("/");
-    router.refresh();
+    // router.refresh();
+  };
+
+  const handleSignInWithGoogle = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${location.origin}/auth/callback`,
+      },
+    });
   };
 
   return (
@@ -56,6 +65,11 @@ export default function Login() {
         </svg>{" "}
         Back
       </Link>
+      <div>
+        <button onClick={handleSignInWithGoogle} className="dark:text-white">
+          Sign In With Google
+        </button>
+      </div>
       {view === "check-email" ? (
         <p className="text-center text-foreground">
           Check <span className="font-bold">{email}</span> to continue signing
